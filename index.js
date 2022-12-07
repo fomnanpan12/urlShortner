@@ -6,6 +6,8 @@ const ShortURL = require('./models/url')
 const dotenv = require("dotenv");
 dotenv.config();
 
+var PORT = process.env.PORT || 3000;
+
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 
@@ -60,7 +62,7 @@ mongoose.connection.on('open', async () => {
 	await ShortURL.create({ full: 'http://google.com', short: '5xr' })
 	await ShortURL.create({ full: 'http://codedamn.com' })
 
-	app.listen(3000, () => {
+	app.listen(PORT, () => {
 		console.log('Server started')
 	})
 })
