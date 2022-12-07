@@ -3,6 +3,8 @@ const app = express()
 const mongoose = require('mongoose')
 // import the model here
 const ShortURL = require('./models/url')
+const dotenv = require("dotenv");
+dotenv.config();
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
@@ -46,14 +48,14 @@ app.get('/:shortid', async (req, res) => {
 })
 
 // Setup your mongodb connection here
-mongoose.connect('mongodb://localhost/codedamn', {
+mongoose.connect(process.env.MONGO_CONNECTION_STR, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 })
 
 mongoose.connection.on('open', async () => {
 	// Wait for mongodb connection before server starts
-
+	console.log('db connected');
 	// Just 2 URLs for testing purpose
 	await ShortURL.create({ full: 'http://google.com', short: '5xr' })
 	await ShortURL.create({ full: 'http://codedamn.com' })
